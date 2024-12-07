@@ -12,8 +12,12 @@ const DB:DBType={
         if(this.db) return this.db;
         this.db=new Sequelize(database,DBUser,DBPassword,{
             host:"localhost",
+            define:{
+                timestamps:false
+            },
             dialect:"mysql"
         })
+        console.log("Created only 1 time")
         return this.db;
     }
 
