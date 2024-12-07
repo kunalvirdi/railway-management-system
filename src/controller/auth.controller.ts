@@ -1,10 +1,11 @@
-import type {NextFunction, Request, Response} from 'express';
-import User from "../models/user.model";
-import UserSchema from "../schemas/user.schema";
+import type {ResponseType,Response,Request,NextFunction} from "../utils/types";
+import {User, Password} from '../models';
+import {UserSchema} from "../schemas/";
 import {fromZodError} from "zod-validation-error";
 import bcrypt from 'bcryptjs'
 import {sendCreatedResponse} from "../utils/responses";
-import type {ResponseType} from "../utils/types";
+
+
 
 export const loginController=(req: Request, res: Response, next: NextFunction) => {
 
@@ -20,7 +21,7 @@ export const registerController=async (req: Request, res: Response, next: NextFu
         const hashedPassword=await bcrypt.hash(data.password,salt)
         const newUser=await User.create({firstName,lastName,username,role,phone,email})
         console.log("Received Request->",newUser.dataValues, {password: hashedPassword})
-
+        await Password.create({userId:newUser.userId,hashedPassword})
         const response:ResponseType={
             status:"success",
             message:"user saved to database successfully",

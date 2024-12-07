@@ -5,23 +5,22 @@ const database=process.env.DB_NAME || "railway_db";
 const DBUser=process.env.DB_USERNAME || "root"
 const DBPassword=process.env.DB_PASSWORD || "1234";
 
+console.log("Only single time...")
+function createConnection():Sequelize{
+    return new Sequelize(database,DBUser,DBPassword,{
+        host:"localhost",
+        dialect:"mysql",
+        define:{
+            timestamps:false
+        }
+    })
+}
+const db=createConnection();
 
 const DB:DBType={
-    db:null,
     getDB() {
-        if(this.db) return this.db;
-        this.db=new Sequelize(database,DBUser,DBPassword,{
-            host:"localhost",
-            define:{
-                timestamps:false
-            },
-            dialect:"mysql"
-        })
-        console.log("Created only 1 time")
-        return this.db;
+        return db;
     }
-
 }
-
 
 export default DB;

@@ -1,9 +1,12 @@
 import {Sequelize} from "sequelize";
 import {z} from "zod";
 import UserSchema from "../schemas/user.schema";
+import type {NextFunction, Request, Response} from 'express';
+
+export type {Response,NextFunction,Request}
+
 
 export interface DBType{
-    db:Sequelize|null,
     getDB():Sequelize
 }
 

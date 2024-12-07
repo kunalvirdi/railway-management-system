@@ -1,6 +1,7 @@
 import express from "express"
 import authRoute from "./routes/auth.route";
-
+import './config/db.config'
+import './models/associtaions'
 import {errorMiddleware} from "./middlewares/error.middleware";
 const PORT= process.env.PORT || 3000
 const app=express()
