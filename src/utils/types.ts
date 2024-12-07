@@ -6,7 +6,11 @@ export interface DBType{
     db:Sequelize|null,
     getDB():Sequelize
 }
-export type ErrorType={
 
+export type ResponseType={
+    status:string,
+    message:string,
+    data:object | null
 }
+
 export type UserType=z.infer<typeof UserSchema>
