@@ -1,6 +1,7 @@
 import {DB} from '../config'
 import {DataTypes, Model} from "sequelize";
 import {generateId} from "../utils";
+import Password from "./password.model";
 
 const db=DB.getDB()
 
@@ -13,6 +14,7 @@ User.init({
     userId:{
         type:DataTypes.STRING,
         primaryKey:true,
+
     },
     firstName:{
         type:DataTypes.STRING,
@@ -49,5 +51,5 @@ User.init({
 User.beforeSave(user=>{
     user.userId=generateId();
 })
-await User.sync()
+
 export default User;
