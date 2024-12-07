@@ -2,14 +2,14 @@ import User from "./user.model";
 import Password from "./password.model";
 
 User.hasOne(Password,{
-    onDelete:"SET NULL",
+    onDelete:"CASCADE",
     foreignKey:{
-        name:"userId",
+        name:"username",
         allowNull:false
     }
 })
 Password.belongsTo(User,{
-    foreignKey:"userId"
+    foreignKey:"username"
 })
 await User.sync()
 await Password.sync()

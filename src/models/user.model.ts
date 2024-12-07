@@ -8,6 +8,7 @@ const db=DB.getDB()
 
 class User extends Model{
     declare userId:String
+    declare username:String
 }
 
 User.init({
@@ -26,8 +27,7 @@ User.init({
     },
     username:{
         type:DataTypes.STRING,
-        allowNull:false,
-        unique:true,
+        primaryKey:true,
     },
     role:{
         type:DataTypes.STRING,

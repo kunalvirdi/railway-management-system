@@ -1,6 +1,5 @@
 import {DB} from '../config'
 import {DataTypes, Model} from "sequelize";
-import User from "./user.model";
 
 const db=DB.getDB()
 class Password extends Model {}

@@ -16,4 +16,10 @@ export type ResponseType={
     data:object | null
 }
 
-export type UserType=z.infer<typeof UserSchema>
+export type UserType={
+    userId:String,
+    username:String,
+    role:String,
+    phone:String,
+    email:String
+}

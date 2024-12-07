@@ -6,3 +6,4 @@ export const sendCreatedResponse=(
 )=>{
     return res.status(201).json(response)
 }
+
