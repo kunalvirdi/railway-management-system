@@ -1,30 +1,38 @@
 import type {Request,NextFunction, Response} from "express";
 import bcrypt from "bcryptjs";
 import {Password, User} from "../models";
-import type {UserType} from "../utils/types";
 
 export const verify=async (req:Request,res:Response,next:NextFunction)=>{
     try{
+        const reqToken=req.cookies['jsonwebtoken']
+        if(reqToken){
+            throw new Error('user already login. Please log out first and then try again!')
+        }
         const body=req.body
-        const details=await Password.findOne({
+        const dbRes=await User.findOne({
             where:{
                 username:body.username
+            },
+            include:{
+                model:Password,
+                attributes:['hashedPassword']
             }
         })
-        if(!details){
+        const user=dbRes?.toJSON();
+        if(req.body?.isAdmin && user.role==='user'){
+            throw new Error('Normal user trying to access admin role.')
+        }
+
+        if(!user){
             throw new Error("User not found");
         }
-        const userCredentials=details.dataValues;
-        const isVerified=await bcrypt.compare(body.password,userCredentials.hashedPassword);
+        const hashedPassword=user.password.hashedPassword;
+        const isVerified=await bcrypt.compare(body.password,hashedPassword);
         if(!isVerified){
-            throw new Error("User verification failed");
+            throw new Error("Incorrect password");
         }
-        const userDetails=await User.findOne({
-            where:{
-                username:body.username
-            }
-        })
-        const {userId,username,email,phone,role}=userDetails?.dataValues
+
+        const {userId,username,email,phone,role}=user;
         // @ts-ignore
         req.user={userId,username,email,phone,role};
         next()
@@ -35,7 +43,7 @@ export const verify=async (req:Request,res:Response,next:NextFunction)=>{
         }
         if(error.message==='User not found'){
             err.statusCode=404
-        }else{
+        }else if(error.message==="Incorrect password"){
             err.statusCode=401
         }
         next(err)
