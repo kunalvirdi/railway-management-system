@@ -11,8 +11,9 @@ function createConnection():Sequelize{
         host:"localhost",
         dialect:"mysql",
         define:{
-            timestamps:false
-        }
+            timestamps:false,
+            version:true
+        },
     })
 }
 const db=createConnection();
