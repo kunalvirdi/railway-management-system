@@ -5,8 +5,8 @@ User.hasOne(Password,{
     onDelete:"CASCADE",
     foreignKey:{
         name:"username",
-        allowNull:false
-    }
+    },
+    sourceKey:"username"
 })
 Password.belongsTo(User,{
     foreignKey:"username"
