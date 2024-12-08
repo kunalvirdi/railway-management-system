@@ -27,6 +27,7 @@ User.init({
     },
     username:{
         type:DataTypes.STRING,
+        unique:true,
         primaryKey:true,
     },
     role:{
